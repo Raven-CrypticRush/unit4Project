@@ -14,13 +14,13 @@ public class PlayerController : MonoBehaviour
     public bool isOnGround = true;
     private float verticalInput;
     private float horizontalInput;
-    private Rigidbody rb;
+    private Rigidbody2D rb;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
         //Forward and Backward Movement
 
         horizontalInput = Input.GetAxis("Horizontal");
-        transform.Translate(Vector2.left * moveSpeed * horizontalInput * Time.deltaTime);
+        transform.Translate(Vector2.right * moveSpeed * horizontalInput * Time.deltaTime);
 
 
 
@@ -38,15 +38,16 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && isOnGround)
         {
             isOnGround = false;
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            rb.AddForce(Vector3.up * jumpForce, (ForceMode2D)ForceMode.Impulse);
         }
     }
 
-    void OnCollision(Collision collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
             isOnGround = true;
         }
     }
+
 }
